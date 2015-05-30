@@ -1,0 +1,330 @@
+<!DOCTYPE HTML-->
+<html>
+	<head>
+		//<meta charset="UTF-8" />
+		<link rel="stylesheet" href="css/jquery-ui.css" />
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile.theme-1.4.5.min.css" />
+		<script type="text/javascript" src="js/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+		<style type="text/css">
+			p
+			{
+				text-align:center;
+			}
+		</style>
+		<script type="text/javascript">
+			$(document).ready(function inicio(){
+				alert("EJECUCION CORRECTA");
+				
+				var BtnGuardar=$("#BtnGuardar");
+				BtnGuardar.click(function GuardarInf(){
+					var Marca=$("#TxtMarca").val();
+					var Modelo=$("#TxtModelo").val();
+					var Ano=$("#TxtAno").val();
+					var Tipo=$("#TxtTipo").val();
+					var Precio=$("#TxtPrecio").val();
+					alert("EJECUCION CORRECTA: Marca= "+Marca+" &Modelo= "+Modelo+"&Ano = "+Ano+" &Tipo= "+Tipo+" &Precio= "+Precio);
+					$.ajax({
+						type:"POST",
+						url:"Guardar.php",
+						data:"Marca="+Marca+"&Modelo="+Modelo+"&Ano="+Ano+"&Tipo="+Tipo+"&Precio="+Precio,
+						success:RespuestaServ
+					});
+					function RespuestaServ(Datos){
+						alert("RESPUESTA: "+Datos);
+					}
+				});
+				
+				var Consultar=$("#BtnConsultar");
+				Consultar.click(function Consulta(){
+					//alert("funciona");
+					$.ajax({
+						type:"POST",
+						url:"ConsultaGen.php",
+						data:"",
+						success:ResConsultas
+					});				
+					function ResConsultas(Datos){
+						//alert("RESPUESTA: "+Datos);
+						var Dat=$.parseJSON(Datos);
+						var DivRes=$("#IdResultado");
+						DivRes.html("");
+						DivRes.append("<table border='1' id='Tab'><th>ID</th><th>MARCA</th>"
+						+"<th>MODELO</th><th>TIPO</th><th>AÑO</th><th>PRECIO</th>");
+						var Tabla=$("#Tab");
+						for(var i in Dat){
+							Tabla.append("<tr><td>"+Dat[i].Id_Auto+"</td>"
+							+"<td>"+Dat[i].Marca+"</td>"
+							+"<td>"+Dat[i].Modelo+"</td>"
+							+"<td>"+Dat[i].Tipo+"</td>"
+							+"<td>"+Dat[i].Ano+"</td>"
+							+"<td>"+Dat[i].Precio+"</td></tr>");
+						}
+						Tabla.append("</table>");
+					}
+				});
+				
+				var BtnCons2=$("#BtnCons2");
+				BtnCons2.click(function Cons2(){
+					var IdConsulta=$("#IdConsulta").val();
+					$.ajax({
+						type:"POST",
+						url:"ConsultaUno.php",
+						data:"Id="+IdConsulta,
+						success:ResConsUno
+					});
+					function ResConsUno(Datos){
+						//alert("RESPUESTA: "+Datos);
+						var Dat=$.parseJSON(Datos);
+						var DivRes=$("#IdResCont2");
+						DivRes.html("");
+						DivRes.append("<table border='1' id='Tab2'><th>ID</th><th>MARCA</th>"
+						+"<th>MODELO</th><th>TIPO</th><th>AÑO</th><th>PRECIO</th>");
+						var Tabla=$("#Tab2");
+						for(var i in Dat){
+							Tabla.append("<tr><td>"+Dat[i].Id_Auto+"</td>"
+							+"<td>"+Dat[i].Marca+"</td>"
+							+"<td>"+Dat[i].Modelo+"</td>"
+							+"<td>"+Dat[i].Tipo+"</td>"
+							+"<td>"+Dat[i].Ano+"</td>"
+							+"<td>"+Dat[i].Precio+"</td></tr>");
+						}
+						Tabla.append("</table>");
+					}
+				});
+				
+				var BtnMostAct=$("#BtnMostAct");
+				BtnMostAct.click(function MostrarDatos(){
+					//alert("aqui todo bien");
+					$.ajax({
+						type:"POST",
+						url:"ConsultaGen.php",
+						data:"",
+						success:ResMostrar
+					});
+									
+					function ResMostrar(Datos){
+						//alert("RESPUESTA: "+Datos);
+						var Dat=$.parseJSON(Datos);
+						var DivRes=$("#ResDatosActualizar");
+						DivRes.html("");
+						DivRes.append("<table border='1' id='Tab3'><th>ID</th><th>MARCA</th>"
+						+"<th>MODELO</th><th>TIPO</th><th>AÑO</th><th>PRECIO</th>");
+						var Tabla=$("#Tab3");
+						for(var i in Dat){
+							Tabla.append("<tr><td>"+Dat[i].Id_Auto+"</td>"
+							+"<td>"+Dat[i].Marca+"</td>"
+							+"<td>"+Dat[i].Modelo+"</td>"
+							+"<td>"+Dat[i].Tipo+"</td>"
+							+"<td>"+Dat[i].Ano+"</td>"
+							+"<td>"+Dat[i].Precio+"</td></tr>");
+						}
+						Tabla.append("</table>");
+					}
+				});
+				var BtnCargarDatosAct=$("#BtnCargarDatosAct");
+				BtnCargarDatosAct.click(function CargarDatos(){
+					//alert("aqui bien");
+					var IdActualizar=$("#IdActualizar").val();
+					$.ajax({
+						type:"POST",
+						url:"ConsultaUno.php",
+						data:"Id="+IdActualizar,
+						success:ResCargarDatos
+					});
+					
+					function ResCargarDatos(Datos){
+						//alert("LISTO"+Datos);
+						var Dat=$.parseJSON(Datos);
+						var DivRes=$("#IdDibujarControles");
+						DivRes.html("");
+						DivRes.append("<label for='IdReg'>ID</label><input type='text' id='IdReg' disabled='true'>"+
+						"<label for='MarcaReg'>MARCA</label><input type='text' id='MarcaReg'>"+
+						"<label for='ModeloReg'>MODELO</label><input type='text' id='ModeloReg'>"+
+						"<label for='TipoReg'>TIPO</label><input type='text' id='TipoReg'>"+
+						"<label for='AnoReg'>AÑO</label><input type='text' id='AnoReg'>"+
+						"<label for='PrecioReg'>PRECIO</label><input type='text' id='PrecioReg'>");
+						$("#IdReg").val(Dat[0].Id_Auto);
+						$("#MarcaReg").val(Dat[0].Marca);
+						$("#ModeloReg").val(Dat[0].Modelo);
+						$("#TipoReg").val(Dat[0].Tipo);
+						$("#AnoReg").val(Dat[0].Ano);
+						$("#PrecioReg").val(Dat[0].Precio);
+					}
+					
+					var BtnGuardarAct=$("#BtnGuardarAct");
+					BtnGuardarAct.click(function GuardarAct(){
+						var Id=parseInt($("#IdReg").val());
+						var Marca=$("#MarcaReg").val();
+						var Modelo=$("#ModeloReg").val();
+						var Ano=$("#AnoReg").val();
+						var Tipo=$("#TipoReg").val();
+						var Precio=$("#PrecioReg").val();
+						alert("EJECUCION CORRECTA: MARCA= "+Marca+" &MOD= "+Modelo+" &ANO= "+Ano+" &Ano = "+Ano+" &Tipo= "+Tipo+" &Precio= "+Precio);
+						$.ajax({
+							type:"POST",
+							url:"ActDatos.php",
+							data:"Id="+Id+"&Marca="+Marca+"&Modelo="+Modelo+"&Ano="+Ano+"&Tipo="+Tipo+"&Precio="+Precio,
+							success:RespGuardarAct
+						});
+						function RespGuardarAct(Datos){
+							alert("RESPUESTA: "+Datos);
+						}
+					});
+				});
+				
+				var BtnMostE=$("#BtnMostE");
+    			BtnMostE.click(function eliminar(){
+					//alert("funciona");			
+					$.ajax({
+						type:"POST",
+						url:"ConsultaGen.php",
+						data:"",
+						success:ResMostEliminar
+					});		
+						
+					function ResMostEliminar(Datos){
+						//alert("RESPUESTA: "+Datos);
+						var Dat=$.parseJSON(Datos);
+						var DivRes=$("#ResDatosEliminar");
+						DivRes.html("");
+						DivRes.append("<table border='1' id='Tab4'><th>ID</th><th>MARCA</th>"
+						+"<th>MODELO</th><th>TIPO</th><th>AÑO</th><th>PRECIO</th>");
+						var Tabla=$("#Tab4");
+						for(var i in Dat){
+							Tabla.append("<tr><td>"+Dat[i].Id_Auto+"</td>"
+							+"<td>"+Dat[i].Marca+"</td>"
+							+"<td>"+Dat[i].Modelo+"</td>"
+							+"<td>"+Dat[i].Tipo+"</td>"
+							+"<td>"+Dat[i].Ano+"</td>"
+							+"<td>"+Dat[i].Precio+"</td></tr>");
+						}
+						Tabla.append("</table>");
+					}
+				});
+       			
+      			var BtnEliminar=$("#BtnEliminar");
+      			BtnEliminar.click(function ConEliminar(){
+      				var Id=$("#IdEliminar").val();
+        			$.ajax({
+      					type:"POST",
+      					url:"Eliminar.php",
+      					data: "Id="+Id,
+      					success: Eliminado
+      				});
+      			     			
+      				function Eliminado(Datos){
+      					alert("RESPUESTA"+Datos);
+      				}
+      			});
+				
+			});
+		</script>
+	</head>
+	<body>
+		
+		<div data-role="page" id="Menu">
+			<div data-role="header">
+				<p>MENU</p>
+			</div>
+			<div data-role="content">
+				<ul data-role="listview">
+					<li><a href="#Insertar">INSERTAR REGISTROS</a></li>
+					<li><a href="#Consulta">CONSULTAR TODOS LOS REGISTROS</a></li>
+					<li><a href="#Consulta2">CONSULTAR UN REGISTRO</a></li>
+					<li><a href="#Actualizar">ACTUALIZAR UN REGISTRO</a></li>
+					<li><a href="#Eliminar">ELIMINAR UN REGISTRO</a></li>
+				</ul>
+			</div>
+			<div data-role="footer">
+				<p>DERECHOS RESERVADOS</p>
+			</div>
+		</div>
+		
+		<div data-role="page" id="Insertar">
+			<div data-role="header">
+				<p>INSERCION DE REGISTROS</p>
+			</div>
+		   	<div data-role="content">
+				<label for="TxtMarca">MARCA: </label>
+				<input type="text" id="TxtMarca" placeholder="ESCRIBE LA MARCA DEL VEHICULO" />
+				<label for="TxtModelo">MODELO: </label>
+				<input type="text" id="TxtModelo" placeholder="ESCRIBE EL MODELO DEL VEHICULO" />
+				<label for="TxtTipo">TIPO: </label>
+				<input type="text" id="TxtTipo" placeholder="ESCRIBE EL TIPO DEL VEHICULO" />
+				<label for="TxtAno">AÑO: </label>
+				<input type="text" id="TxtAno" placeholder="ESCRIBE EL AÑO DE FABRICACION DEL VEHICULO" />
+				<label for="TxtPrecio">PRECIO: </label>
+				<input type="text" id="TxtPrecio" placeholder="ESCRIBE EL PRECIO DEL VEHICULO" />
+				<input type="button" id="BtnGuardar" value="GUARDAR" />
+			</div>
+			<div data-role="footer">
+				<p>DERECHOS RESERVADOS</p>
+			</div>		
+		</div>
+		
+		<div data-role="page" id="Consulta">
+			<div data-role="header">
+				<p>CONSULTAR REGISTROS</p>
+			</div>
+			<div data-role="content">
+				<input type="button" id="BtnConsultar" value="CONSULTAR" />
+				<div id="IdResultado"></div>
+			</div>
+				<div data-role="footer">
+					<p>DERECHOS RESERVADOS</p>
+			</div>			
+		</div>
+		
+		<div data-role="page" id="Consulta2">
+			<div data-role="header">
+				<p>CONSULTAR UN REGISTRO</p>
+			</div>
+			<div data-role="content">
+				<label for="IdConsulta">ID</label>
+				<input type="text" id="IdConsulta"/>
+				<input type="button" id="BtnCons2" value="CONSULTAR" />
+				<div id="IdResCont2"></div>
+			</div>
+				<div data-role="footer">
+					<p>DERECHOS RESERVADOS</p>
+			</div>
+		</div>
+		
+		<div data-role="page" id="Actualizar">
+      		<div data-role="header">
+      			<p>ACTUALIZAR UN REGISTRO</p>
+    		</div>
+    		<div data-role="content">
+      			<input type="button" id="BtnMostAct" value="Mostrar todos los registros">
+      			<div id="ResDatosActualizar"></div>
+      			<label for="IdActualizar">ID:</label>
+      			<input type="text" id="IdActualizar" >
+      			<input type="button" id="BtnCargarDatosAct" value="CARGAR DATOS">
+      		<div id="IdDibujarControles"></div>
+      		<input type="button" id="BtnGuardarAct" value="GUARDAR">      
+    		</div>
+    		<div data-role="footer">
+      			<p>DERECHOS RESERVADOS</p>
+    		</div>
+    	</div>
+		
+		<div data-role="page" id="Eliminar">
+    		<div data-role="header">
+      			<p>ELIMINAR UN REGISTRO</p>
+    		</div>
+    	    <div data-role="content">
+    			<input type="button" id="BtnMostE" value="MOSTRAR TODOS LOS REGISTROS">
+      			<div id="ResDatosEliminar"></div>
+      			<label for="IdEliminar">ID:</label>
+      			<input type="text" id="IdEliminar" >
+      			<input type="button" id="BtnEliminar" value="ELIMINAR">      
+    		</div>
+    		<div data-role="footer">
+      			<p>DERECHOS RESERVADOS</p>
+      		</div>
+    	</div>  
+	</body>
+</html>
