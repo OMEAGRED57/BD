@@ -28,7 +28,7 @@
 					alert("EJECUCION CORRECTA: Marca= "+Marca+" &Modelo= "+Modelo+"&Ano = "+Ano+" &Tipo= "+Tipo+" &Precio= "+Precio);
 					$.ajax({
 						type:"POST",
-						url:"Guardar.php",
+						url:"http://omegared.260mb.net/CONCESIONARIA/Guardar.php",
 						data:"Marca="+Marca+"&Modelo="+Modelo+"&Ano="+Ano+"&Tipo="+Tipo+"&Precio="+Precio,
 						success:RespuestaServ
 					});
@@ -42,7 +42,7 @@
 					//alert("funciona");
 					$.ajax({
 						type:"POST",
-						url:"ConsultaGen.php",
+						url:"http://omegared.260mb.net/CONCESIONARIA/ConsultaGen.php",
 						data:"",
 						success:ResConsultas
 					});				
@@ -71,7 +71,7 @@
 					var IdConsulta=$("#IdConsulta").val();
 					$.ajax({
 						type:"POST",
-						url:"ConsultaUno.php",
+						url:"http://omegared.260mb.net/CONCESIONARIA/ConsultaUno.php",
 						data:"Id="+IdConsulta,
 						success:ResConsUno
 					});
@@ -100,7 +100,7 @@
 					//alert("aqui todo bien");
 					$.ajax({
 						type:"POST",
-						url:"ConsultaGen.php",
+						url:"http://omegared.260mb.net/CONCESIONARIA/ConsultaGen.php",
 						data:"",
 						success:ResMostrar
 					});
@@ -130,7 +130,7 @@
 					var IdActualizar=$("#IdActualizar").val();
 					$.ajax({
 						type:"POST",
-						url:"ConsultaUno.php",
+						url:"http://omegared.260mb.net/CONCESIONARIA/ConsultaUno.php",
 						data:"Id="+IdActualizar,
 						success:ResCargarDatos
 					});
@@ -165,7 +165,7 @@
 						alert("EJECUCION CORRECTA: MARCA= "+Marca+" &MOD= "+Modelo+" &ANO= "+Ano+" &Ano = "+Ano+" &Tipo= "+Tipo+" &Precio= "+Precio);
 						$.ajax({
 							type:"POST",
-							url:"ActDatos.php",
+							url:"http://omegared.260mb.net/CONCESIONARIA/ActDatos.php",
 							data:"Id="+Id+"&Marca="+Marca+"&Modelo="+Modelo+"&Ano="+Ano+"&Tipo="+Tipo+"&Precio="+Precio,
 							success:RespGuardarAct
 						});
@@ -180,7 +180,7 @@
 					//alert("funciona");			
 					$.ajax({
 						type:"POST",
-						url:"ConsultaGen.php",
+						url:"http://omegared.260mb.net/CONCESIONARIA/ConsultaGen.php",
 						data:"",
 						success:ResMostEliminar
 					});		
@@ -210,7 +210,7 @@
       				var Id=$("#IdEliminar").val();
         			$.ajax({
       					type:"POST",
-      					url:"Eliminar.php",
+      					url:"http://omegared.260mb.net/CONCESIONARIA/Eliminar.php",
       					data: "Id="+Id,
       					success: Eliminado
       				});
