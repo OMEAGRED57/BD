@@ -68,11 +68,11 @@
 				
 				var BtnCons2=$("#BtnCons2");
 				BtnCons2.click(function Cons2(){
-					var IdConsulta=$("#IdConsulta").val();
+					var IdConsult=$("#IdConsulta").val();
 					$.ajax({
 						type:"POST",
 						url:"http://omegared.260mb.net/CONCESIONARIA/ConsultaUno.php",
-						data:"Id="+IdConsulta,
+						data:"Id="+IdConsult,
 						success:ResConsUno
 					});
 					function ResConsUno(Datos){
